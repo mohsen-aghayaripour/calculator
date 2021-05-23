@@ -36,35 +36,40 @@ let operator = ''
 button.forEach((btn)=>{
     btn.addEventListener('click',()=> {
         value = btn.id;
-        if(Number.isNaN(value)){
-            if(display.textContent == '0'){
-                display.textContent = value;
-            }
-            else{
-                display.textContent += value;
-            }
-        }
-        else{
-            if(value == 'ac'){
-                display.textContent = '0';
-            }
-            else if(value == '.'){
-                if(display == '0'){
-                    display.textContent = '0.';
+        if(!Number.isNaN(Number.parseInt(value))){
+            if(firstNum === 0){
+                if(display.textContent == '0'){
+                    display.textContent = value;
                 }
                 else{
-                    display.textContent += `.${value}`;
+                    display.textContent += value;
                 }
             }
-            else if(value == '='){
-                display.textContent = '0';
-            }
             else{
-                display.textContent += value;
+                if(display.textContent == '0'){
+                    display.textContent = value;
+                    secondNum = parseInt(display.textContent);
+                }
+                else{
+                    display.textContent += value;
+                    secondNum = parseInt(display.textContent);
+                }
             }
         }
-
-    
+        else if(value == 'ac'){
+            display.textContent = '0';
+            firstNum = 0;
+            secondNum = 0;
+        }
+        else{
+            if(value == '+'){
+                operator = value;
+                firstNum = parseInt(display.textContent);
+                display.textContent = '0';
+            }
+            else if(value = '='){
+                display.textContent = oprate(firstNum, operator, secondNum);
+            }
+        }
     })
 })
-console.log(display);
