@@ -36,10 +36,15 @@ let operator = ''
 button.forEach((btn)=>{
     btn.addEventListener('click',()=> {
         value = btn.id;
-        if(!Number.isNaN(Number.parseInt(value))){
+        if(!Number.isNaN(Number.parseInt(value)) || value == '.'){
             if(firstNum === 0){
                 if(display.textContent == '0'){
-                    display.textContent = value;
+                    if(value === '.'){
+                        display.textContent = `0${value}`;
+                    }
+                    else{
+                        display.textContent = value;
+                    }
                 }
                 else{
                     display.textContent += value;
@@ -47,12 +52,17 @@ button.forEach((btn)=>{
             }
             else{
                 if(display.textContent == '0'){
-                    display.textContent = value;
-                    secondNum = parseInt(display.textContent);
+                    if(value === '.'){
+                        display.textContent = `0${value}`;
+                    }
+                    else{
+                        display.textContent = value;
+                        secondNum = parseFloat(display.textContent);
+                    }
                 }
                 else{
                     display.textContent += value;
-                    secondNum = parseInt(display.textContent);
+                    secondNum = parseFloat(display.textContent);
                 }
             }
         }
@@ -62,13 +72,14 @@ button.forEach((btn)=>{
             secondNum = 0;
         }
         else{
-            if(value == '+'){
+            if(value == '+' || value == '-' || value == '/' || value == '*'){
                 operator = value;
-                firstNum = parseInt(display.textContent);
+                firstNum = parseFloat(display.textContent);
                 display.textContent = '0';
             }
             else if(value = '='){
                 display.textContent = oprate(firstNum, operator, secondNum);
+                firstNum = parseFloat(display.textContent);
             }
         }
     })
