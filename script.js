@@ -73,9 +73,16 @@ button.forEach((btn)=>{
         }
         else{
             if(value == '+' || value == '-' || value == '/' || value == '*'){
-                operator = value;
-                firstNum = parseFloat(display.textContent);
-                display.textContent = '0';
+                if(secondNum === 0){
+                    operator = value;
+                    firstNum = parseFloat(display.textContent);
+                    display.textContent = '0';
+                }
+                else{
+                    display.textContent = oprate(firstNum, operator, secondNum);
+                    secondNum = 0;
+                    firstNum = parseFloat(display.textContent);
+                }
             }
             else if(value = '='){
                 display.textContent = oprate(firstNum, operator, secondNum);
