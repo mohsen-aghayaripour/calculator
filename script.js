@@ -1,16 +1,22 @@
 
 let textHolder = '';
-
+let num = 0;
 function add (a, b) {
 	return a + b;
 };
 function subtract (a, b) {
+    if(a === 0){
+        return -b
+    }
 	return a - b;
 };
 function multiply (a,b) {
 	return a * b;
 };
 function divide(a, b){
+    if(a === 0){
+        return "ERROR"
+    }
     return a / b;
 };
 function oprate(firstNum, operator, secondNum){
@@ -37,7 +43,7 @@ button.forEach((btn)=>{
     btn.addEventListener('click',()=> {
         value = btn.id;
         if(!Number.isNaN(Number.parseInt(value)) || value == '.'){
-            if(firstNum === 0){
+            if(firstNum === 0 && secondNum === 0){
                 if(display.textContent == '0'){
                     if(value === '.'){
                         display.textContent = `0${value}`;
@@ -50,10 +56,11 @@ button.forEach((btn)=>{
                     display.textContent += value;
                 }
             }
-            else{
+            else if(secondNum === 0){
                 if(display.textContent == '0'){
                     if(value === '.'){
                         display.textContent = `0${value}`;
+                        secondNum = parseFloat(display.textContent);
                     }
                     else{
                         display.textContent = value;
@@ -62,31 +69,55 @@ button.forEach((btn)=>{
                 }
                 else{
                     display.textContent += value;
-                    secondNum = parseFloat(display.textContent);
+                    secondNum = parseFloat(display.textContent)
                 }
+            }
+            else{
+                display.textContent += value;
+                secondNum = parseFloat(display.textContent)
             }
         }
         else if(value == 'ac'){
             display.textContent = '0';
             firstNum = 0;
             secondNum = 0;
+            operator = '';
         }
         else{
             if(value == '+' || value == '-' || value == '/' || value == '*'){
-                if(secondNum === 0){
+                if(operator === value && secondNum === 0){
+                    display.textContent = oprate(firstNum, operator, firstNum);
+                    secondNum = 0;
+                    firstNum = parseFloat(display.textContent);
+                }
+                else if(operator === value ){
+                    display.textContent = oprate(firstNum, operator, secondNum);
+                    secondNum = 0;
+                    firstNum = parseFloat(display.textContent);
+                }
+                else if(secondNum === 0){
                     operator = value;
                     firstNum = parseFloat(display.textContent);
                     display.textContent = '0';
                 }
+                // else if(!operator == ''){
+                //     operator = value;
+                //     secondNum = firstNum;
+                //     firstNum = oprate(firstNum, operator, secondNum);
+                //     display.textContent = firstNum;
+                // }
                 else{
                     display.textContent = oprate(firstNum, operator, secondNum);
                     secondNum = 0;
                     firstNum = parseFloat(display.textContent);
+                    display.textContent = '0';
                 }
             }
             else if(value = '='){
                 display.textContent = oprate(firstNum, operator, secondNum);
                 firstNum = parseFloat(display.textContent);
+                secondNum = 0;
+                operator = '';
             }
         }
     })
